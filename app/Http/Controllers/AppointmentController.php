@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Appointment;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
+use App\Http\Middleware\AuthMiddleware;
 
 
 class AppointmentController extends Controller
@@ -13,7 +15,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::all();
+        return view("appointment.index", compact("appointments"));
     }
 
     /**
@@ -21,7 +24,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        return view("appointment.create");
     }
 
     /**
@@ -29,15 +32,47 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
-            'doctor_id' => 'required',
+        $validdata = $request->validate([
+            'doctor_id' => 'required|exists:doctors,id',
             'date' => 'required|date|after:today',
-            'start_time' => 'required|date_format:h:i A',
-            'end_time' => 'required|date_format:h:i A',
+            'start_time' => 'required',
+            'end_time' => 'required',
             'status' => 'required'
 
         ]);
+
+
+        $existingAppointment = Appointment::where('start_time', $validdata['start_time'])
+            ->where('end_time', $validdata['end_time'])
+            ->first();
+
+        if ($existingAppointment) {
+            return back()->with('error', 'This appointment already exists.');
+        }
+
+
+
+
+        Appointment::create($validdata);
+        return redirect('/appointments')->with('success', 'Appointment Added Successfully!');
+
+
+
+
+
+
+
+
+
+
+        // $appointment = new Appointment; 
+        //  $appointment ->doctor_id = $request->input('doctor_id');
+        //  $appointment ->date= $request->input('date');
+        // $appointment ->start_time = $request->input('start_time'); 
+        //  $appointment ->end_time = $request->input('end_time'); 
+        //  $appointment ->status = $request->input('status'); 
+        //  $appointment ->save();
+        // return redirect('/appointments')->with('success', 'Appointment Added Successfully!');
     }
 
     /**
@@ -69,7 +104,9 @@ class AppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->delete();
+        return redirect('/appointments')->with('success', 'Appointment Cancel Successfully!');
     }
 
     public function construct()
