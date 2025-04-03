@@ -20,10 +20,12 @@ class Appointment extends Model
     protected $casts = [
         'doctor_id'  => 'integer',
         'date'       => 'date', 
-        'start_time' => 'datetime:H:i ',
-        'end_time'   => 'datetime:H:i ',
+        'start_time' => 'datetime',
+        'end_time'   => 'datetime',
         'status'     => 'string',
     ];
+
+    
 
     public function doctor()
     {

@@ -6,7 +6,7 @@ use App\Http\Controllers\ApiController;
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['web','auth'])->group(function () {
     Route::resource('appointments', AppointmentController::class);
 });
 
@@ -25,3 +25,6 @@ Route::get('/login', function () {
     return view('login');
  });
 Route::post('/login', [ApiController::class, 'login']);
+
+
+Route::post('/logout', [ApiController::class, 'logout'])->name('logout');

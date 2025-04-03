@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Appointment;
+
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\Http\Middleware\AuthMiddleware;
+use Illuminate\Support\Facades\Auth;
 
 
 class AppointmentController extends Controller
@@ -13,10 +16,17 @@ class AppointmentController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function _construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
+
         $appointments = Appointment::all();
-        return view("appointment.index", compact("appointments"));
+
+        return view("appointment.index", compact("appointments", ));
     }
 
     /**
@@ -42,19 +52,21 @@ class AppointmentController extends Controller
         ]);
 
 
-        $existingAppointment = Appointment::where('start_time', $validdata['start_time'])
+
+
+        $existingAppointment = Appointment::where('doctor_id', $validdata['doctor_id'])
+            ->where('date', $validdata['date'])
+            ->where('start_time', $validdata['start_time'])
             ->where('end_time', $validdata['end_time'])
+            ->where('status', $validdata['status'])
             ->first();
 
         if ($existingAppointment) {
             return back()->with('error', 'This appointment already exists.');
+        } else {
+            Appointment::create($validdata);
+            return redirect('/appointments')->with('success', 'Appointment Added Successfully!');
         }
-
-
-
-
-        Appointment::create($validdata);
-        return redirect('/appointments')->with('success', 'Appointment Added Successfully!');
 
 
 
@@ -104,14 +116,24 @@ class AppointmentController extends Controller
      */
     public function destroy(string $id)
     {
+
+
         $appointment = Appointment::find($id);
-        $appointment->delete();
-        return redirect('/appointments')->with('success', 'Appointment Cancel Successfully!');
+        $now = now();
+
+        $starttime = $appointment->start_time;
+
+
+        if ($starttime->lte($now->addHours(24))) {
+
+            $appointment->delete();
+            return redirect('/appointments')->with('success', 'Appointment Cancel Successfully!');
+
+        } else
+
+            return redirect('/appointments')->with('error', 'You can only cancel an appointment 24 hours beforr');
+
     }
 
-    public function construct()
-    {
-        $this->middleware('auth');
-    }
 
 }

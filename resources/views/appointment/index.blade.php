@@ -8,12 +8,21 @@
 </head>
 <body>
 
-    @if (session('success'))
-    <div class="alert alert-success">
+    @if(session('success'))
+    <div>
         {{ session('success') }}
     </div>
 @endif
 
+@if(session('error'))
+    <div>
+        {{ session('error') }}
+    </div>
+@endif
+<form action="{{ url('/logout') }}" method="POST">
+    @csrf
+    <button type="submit">Logout</button>
+</form>
 
 
     <div  style="padding: 20px"><a href="{{url("/appointments/create")}}" type="button" class="btn btn-primary" style="background-color:#1bb350; border:#1bb350"> Create</a></div>
@@ -35,9 +44,9 @@
             @foreach ($appointments as $appointment)
             <tr>
                 <td>{{$appointment->doctor_id}}</td>
-                <td>{{$appointment->date}}</td>
-                <td>{{$appointment->start_time}}</td>
-                <td>{{$appointment->end_time}}</td>
+                <td>{{$appointment->date->format('Y-m-d')}}</td>
+                <td>{{$appointment->start_time->format('h:i:s A')}}</td>
+                <td>{{$appointment->end_time->format('h:i:s A')}}</td>
                 <td>{{$appointment->status}}</td>                                      
                                                     
                 <td>
