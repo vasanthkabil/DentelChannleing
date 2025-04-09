@@ -7,11 +7,13 @@
 
     <title>Laravel</title>
 
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- Styles / Scripts -->
+   
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
@@ -30,7 +32,7 @@
     <a href='/login'>Login</a>
 
     <a href='/appointments'> Appointments</a>
-
+    <h1 class="text-4xl font-bold text-blue-600">Welcome to Laravel with Tailwind CSS!</h1>
 
 
 </body>
