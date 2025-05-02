@@ -1,67 +1,67 @@
-
-
-
-import React, { useState } from 'react';
+import { useState } from "react";
+import kabil from "../../images/kabil.jpg";
 
 const Login = () => {
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-
-    try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSuccessMessage(data.message);
-      } else {
-        setErrorMessage(data.message);
-      }
-    } catch (error) {
-      setErrorMessage('An error occurred. Please try again later.');
-    }
-  };
-
   return (
-    <div className="container">
-      <h2 className="mt-5">Login</h2>
-      <p>
-        You are not registered? Please <a href="/register">register</a>
-      </p>
+   
+        
+   
+      <div className="min-h-screen flex flex-col justify-center  items-center ">
+        <h2 className="text-3xl font-bold text-black mb-4">Login</h2>
+       
 
-      {successMessage && <div className="alert alert-success">{successMessage}</div>}
-      {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+        <form method="POST" action="/login">
+          <input
+            type="hidden"
+            name="_token"
+            value={document.querySelector('meta[name="csrf-token"]')?.getAttribute("content")}
+          />
 
-      <br />
-      <br />
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email address</label>
-        <input type="email" id="email" name="email" required />
+          <div className="mb-6 ">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-500">
+              Email address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        <br />
-        <br />
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-500">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              
+            />
+          </div>
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" required />
+          <button
+            type="submit"
+            className="w-full py-2 px- bg-blue-600 hover:bg-blue-100 text-white hover:text-black font-semibold rounded-lg transition duration-200"
+          >
+            Login
+          </button>
+         
+          <p className="text-gray-400 mb-6 p-4 ml-9">
+          Not registered?{" "}
+          <a href="/register" className="text-blue-400 underline hover:text-blue-300">
+            Register here
+          </a>
+        </p>
+        </form>
+      </div>
 
-        <br />
-        <br />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+   
   );
 };
 
-export default Login; 
+export default Login;

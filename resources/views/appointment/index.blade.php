@@ -20,13 +20,12 @@
 @endif
 
 
-<div id="react-root" class="flex mt-5 justify-end mr-16" >
+<div id="react-root" class="flex mt-3 justify-end mr-10" >
 
 
 </div>
 
-    <div  style="padding: 20px"><a href="{{url("/appointments/create")}}" type="button" class="btn btn-primary" style="background-color:#1bb350; border:#1bb350"> Create</a></div>
-
+    
     <div class="relative overflow-x-auto ">
         <table class="w-full text-sm text-left rtl:text-right text-black ">
             <thead class="text-xs text-gray-700 uppercase  dark:text-gray-400">
@@ -85,6 +84,8 @@
         </table>
     </div>
 
+    <div id="react-" >
+    </div>
 </x-layout>
 
 

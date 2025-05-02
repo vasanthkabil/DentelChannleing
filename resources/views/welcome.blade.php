@@ -18,6 +18,21 @@
 </head>
 
 <body>
+    @if(session('success'))
+    <div>
+        {{ session('success') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     @if (Auth::check())
         <p>Welcome, {{ Auth::User()->name }}</p>

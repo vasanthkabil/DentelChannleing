@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 class ApiController extends Controller
 {
     public function register(Request $request)
-    {
+    {    
+       
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -36,6 +37,7 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
+     
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
             return redirect('/appointments')->with('success', 'login successful.');
