@@ -12,7 +12,7 @@ Route::middleware(['web','auth'])->group(function () {
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('/register', function () {

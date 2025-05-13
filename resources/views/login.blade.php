@@ -13,6 +13,8 @@
     @vite(['resources/css/app.css','resources/js/App.jsx'])
 </head>
 <body>
+    <div id="flash-error" data-message="{{ session('error') }}"></div>
+    <div id="flash-success" data-message="{{ session('success') }}"></div>
     <div id="react-login"></div> <!-- React will mount here -->
  
 </body>

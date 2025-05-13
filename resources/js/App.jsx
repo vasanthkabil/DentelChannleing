@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "../css/app.css";
 
-import Createbutton from "./components/Createbutton.jsx";
+
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import Login from "./pages/Login.jsx";
@@ -12,15 +12,7 @@ import Createappoinments from "./pages/Createappoinments.jsx";
 import Appointments from "./pages/Appointments.jsx";
 
 
-const rootElement = document.getElementById("react-root");
-if (rootElement) {
-    const root = ReactDOM.createRoot(rootElement);
-    root.render(
-    <>
-    <Createbutton />
-    
-    </>);
-}
+
 
 const rootfooter = document.getElementById("react-footer");
 if (rootfooter) {
@@ -74,11 +66,12 @@ if (rootcreate) {
 
 const rootappoinments = document.getElementById("react-appoinment");
 if (rootappoinments) {
+    const appointments = JSON.parse(rootappoinments.dataset.appointments);
     const root = ReactDOM.createRoot(rootappoinments);
     root.render(
     <>
 
-    <Appointments/>
+    <Appointments appoinments={appointments}/>
     </>);
 }
 

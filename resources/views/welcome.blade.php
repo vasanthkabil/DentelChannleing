@@ -49,7 +49,10 @@
     <a href='/appointments'> Appointments</a>
     <h1 class="text-4xl font-bold text-blue-600">Welcome to Laravel with Tailwind CSS!</h1>
 
-
+   
 </body>
 
 </html>
+
+
+className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"

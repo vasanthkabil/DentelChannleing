@@ -50,6 +50,8 @@ class AppointmentController extends Controller
             'status' => 'required'
 
         ]);
+        
+      
 
 
 
@@ -61,12 +63,17 @@ class AppointmentController extends Controller
             ->where('status', $validdata['status'])
             ->first();
 
-        if ($existingAppointment) {
-            return back()->with('error', 'This appointment already exists.');
-        } else {
-            Appointment::create($validdata);
-            return redirect('/appointments')->with('success', 'Appointment Added Successfully!');
-        }
+
+            if ($existingAppointment) {
+                return back()->with('error', 'This appointment already exists.');
+            } elseif (empty($validdata['doctor_id']) || empty($validdata['date']) || empty($validdata['start_time']) || empty($validdata['end_time']) || empty($validdata['status'])){
+                return back()->with('error', 'Please fill valid details.');
+            } else {
+                Appointment::create($validdata);
+                return redirect('/appointments/create')->with('success', 'Appointment Added Successfully!');
+            }
+            
+        
 
 
 
@@ -126,12 +133,13 @@ class AppointmentController extends Controller
 
         if ($starttime->lte($now->addHours(24))) {
 
-            $appointment->delete();
-            return redirect('/appointments')->with('success', 'Appointment Cancel Successfully!');
+           
+            return redirect('/appointments')->with('error', 'You can only cancel an appointment 24 hours beforr');
 
         } else
-
-            return redirect('/appointments')->with('error', 'You can only cancel an appointment 24 hours beforr');
+        $appointment->delete();
+        return redirect('/appointments')->with('success', 'Appointment Cancel Successfully!');
+          
 
     }
 
